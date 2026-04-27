@@ -1,0 +1,53 @@
+name: CI Pipeline - BobApp
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+jobs:
+  test-backend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./back
+    steps:
+      - name: Retrieve the code
+        uses: actions/checkout@v3
+
+      - name: Install Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+      
+      - name: Run the tests and Jacoco
+        run: mvn clean verify
+
+      - name: Save the test report Back
+        uses: actions/upload-artifact@v3
+        with:
+          name: jacoco-report-back
+          path: back/target/site/jacoco
+
+  test-frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./front
+    steps:
+      - name: Retrieve the code
+        uses: actions/checkout@v3
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+      - name: Install dependencies
+        run: npm install
+      - name: Run the tests and coverage
+        run: npm test -- --watch=false --code-coverage
+      - name: Save the test report Front
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-front
+          path: front/coverage
