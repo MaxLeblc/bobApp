@@ -45,7 +45,7 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Run the tests and coverage
-        run: npm test -- --watch=false --code-coverage
+        run: npm test -- --watch=false --code-coverage --browsers=ChromeHeadless
       - name: Save the test report Front
         uses: actions/upload-artifact@v7
         with:
