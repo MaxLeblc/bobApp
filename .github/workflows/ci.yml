@@ -12,19 +12,19 @@ jobs:
         working-directory: ./back
     steps:
       - name: Retrieve the code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
 
       - name: Install Java
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v5
         with:
           java-version: '11'
-          distribution: 'adopt'
+          distribution: 'temurin'
       
       - name: Run the tests and Jacoco
         run: mvn clean verify
 
       - name: Save the test report Back
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v7
         with:
           name: jacoco-report-back
           path: back/target/site/jacoco
@@ -36,10 +36,10 @@ jobs:
         working-directory: ./front
     steps:
       - name: Retrieve the code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
 
       - name: Install Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v6
         with:
           node-version: '16'
       - name: Install dependencies
@@ -47,7 +47,7 @@ jobs:
       - name: Run the tests and coverage
         run: npm test -- --watch=false --code-coverage
       - name: Save the test report Front
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v7
         with:
           name: coverage-front
           path: front/coverage
