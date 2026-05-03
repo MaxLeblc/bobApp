@@ -78,6 +78,10 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      - name: Compile Backend
+        run: mvn compile
+        working-directory: ./back
+
       - name: SonarQube Scan
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
